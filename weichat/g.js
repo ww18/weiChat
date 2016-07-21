@@ -11,7 +11,7 @@ var util = require('../libs/util')
 
 
 
-module.exports = function(opts){
+module.exports = function(opts, handler){
   var wechat = new Wechat(opts)
 
   return function *(next){
@@ -46,23 +46,13 @@ module.exports = function(opts){
       console.log(content)
       var message = util.formatMessage(content.xml)
       console.log(message)
-      if(message.MsgType ==='event'){
-        if(message.Event === 'subscribe'){
-          var now = new Date().getTime()
 
-          that.status = 200
-          that.type = 'application/xml'
-          that.body = '<xml>'+
-          '<ToUserName><![CDATA[' + message.FromUserName + ']]></ToUserName>'+
-          '<FromUserName><![CDATA[' + message.ToUserName + ']]></FromUserName>'+
-          '<CreateTime>' + now +'</CreateTime>'+
-          '<MsgType><![CDATA[text]]></MsgType>'+
-          '<Content><![CDATA[你好]]></Content>'+
-          '</xml>'
+      this.weixin = message
 
-          return
-        }
-      }
+      yield handler.call(this, next)
+
+      wechat.reply.call(this)
+
     }
 
 
