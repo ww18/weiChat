@@ -74,12 +74,12 @@ exports.tpl = function(content, message){
     type = 'news'
   }
 
-  type = content.type || type
+  type = message.type || type
   info.content = content
   info.createTime = new Date().getTime()
   info.msgType = type
   info.toUserName = toUserName
-  info.fromUsername = fromUserName
+  info.fromUserName = fromUserName
 
   return tpl.compiled(info)
 
