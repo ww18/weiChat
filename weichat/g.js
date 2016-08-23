@@ -8,13 +8,10 @@ var getReqBody = require('raw-body')
 var Wechat = require('./wechat')
 var util = require('../libs/util')
 
-
-
-
 module.exports = function(opts, handler){
   var wechat = new Wechat(opts)
 
-  return function *(next){
+  return function* (next){
     //console.log(this.query)
     var that = this
     var token = opts.token
@@ -27,6 +24,7 @@ module.exports = function(opts, handler){
 
     if(this.method === "GET"){
       if(sha === signature){
+        console.log(echostr)
         this.body = echostr + ''
       }else{
         this.body = 'wrong'
@@ -38,7 +36,7 @@ module.exports = function(opts, handler){
       }
       var data = yield getReqBody(this.req, {
         "length": this.length,
-        "limit": '1mb',
+        "limit": "1mb",
         "encoding": this.charset
       })
 
@@ -49,7 +47,7 @@ module.exports = function(opts, handler){
       this.weixin = message
 
       yield handler.call(this, next)
-
+      //console.log(this)
       wechat.reply.call(this)
 
     }

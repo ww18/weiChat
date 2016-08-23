@@ -8,9 +8,9 @@ exports.reply = function* (next){
 
   if(message.MsgType === 'event'){
     if(message.Event === 'subscribe'){
-      if(message.EventKey){
-        console.log('扫二维码进来'+ message.EventKey + ' ' + message.ticket)
-      }
+      //if(message.EventKey){
+        console.log('扫二维码进来')
+      //}
       this.body = '哈哈，你订阅了这个号'
     }else if(message.Event === 'unsubscribe'){
       console.log('无情取关')
