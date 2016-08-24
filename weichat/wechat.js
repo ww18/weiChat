@@ -22,7 +22,7 @@ function Wechat(opts){
 
 }
 
-Wechat.prototype.fetchAccessToken = function(){
+Wechat.prototype.fetchAccessToken = function(data){
   var that = this
   if(this.access_token && this.expires_in){
     if(this.isValidAccessToken(this)){
@@ -30,7 +30,7 @@ Wechat.prototype.fetchAccessToken = function(){
     }
   }
 
-  this.getAccessToken().then(function(data){
+  return this.getAccessToken().then(function(data){
     try {
       data = JSON.parse(data)
     }
@@ -91,7 +91,7 @@ Wechat.prototype.updateAccessToken = function(){
   })
 }
 
-Wechat.prototype.uploadMaterial = function(){
+Wechat.prototype.uploadMaterial = function(type, filepath){
   var form = {
     media: fs.createReadStream(filepath)
   }
@@ -105,15 +105,15 @@ Wechat.prototype.uploadMaterial = function(){
         .then(function(data){
           var url = api.upload + 'access_token=' + data.access_token + '&type=' + type
 
-        request({method: "POST", url: url,formData: form, json: true}).then(function(response){
-          var _data = response[1]
+          request({method: "POST", url: url,formData: form, json: true}).then(function(response){
+            var _data = response[1]
 
-          if(_data){
-            resolve(_data)
-          }else{
-            throw new Error("Upload material fails")
-          }
-        })
+            if(_data){
+              resolve(_data)
+            }else{
+              throw new Error("Upload material fails")
+            }
+          })
             .catch(function(err){
               reject(err)
             })

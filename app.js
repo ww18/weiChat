@@ -5,7 +5,7 @@
 var Koa = require('koa')
 var path = require('path')
 var wechat = require('./weichat/g')
-var weixin = require('./weichat/weixin')
+var weixin = require('./weixin')
 var util = require('./libs/util')
 var config = require('./config')
 var wechat_file = path.join(__dirname, './config/wechat.txt')

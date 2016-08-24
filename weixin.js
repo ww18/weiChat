@@ -7,7 +7,7 @@ var config = require('./config')
 var Wechat = require('./weichat/wechat')
 var wechatApi = new Wechat(config.wechat)
 
-exports.reply = function* (next){
+exports.reply = function* (next) {
   var message = this.weixin
 
   if(message.MsgType === 'event'){
@@ -47,7 +47,7 @@ exports.reply = function* (next){
     }else if(content === '5'){
       var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg')
       reply = {
-        type: 'iamge',
+        type: 'image',
         mediaId: data.media_id
       }
     }
