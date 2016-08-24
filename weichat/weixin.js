@@ -3,6 +3,10 @@
  */
 'use strict'
 
+var config = require('./config')
+var Wechat = require('./weichat/wechat')
+var wechatApi = new Wechat(config.wechat)
+
 exports.reply = function* (next){
   var message = this.weixin
 
@@ -40,6 +44,12 @@ exports.reply = function* (next){
           description: '只是各煎熟而已'
         }
       ]
+    }else if(content === '5'){
+      var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg')
+      reply = {
+        type: 'iamge',
+        mediaId: data.media_id
+      }
     }
     this.body = reply
   }
